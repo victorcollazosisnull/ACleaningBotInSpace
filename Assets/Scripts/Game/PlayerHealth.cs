@@ -46,8 +46,9 @@ public class PlayerHealth : MonoBehaviour
 
         float points = GameManager.Instance.points;
         float time = GameManager.Instance.timeSurvived;
+        string playerName = GameSession.Instance != null ? GameSession.Instance.PlayerName : "Invitado";
 
-        RankingManager.SaveResult(new GameResult(points, time));
+        RankingManager.SaveResult(new GameResult(points, time, playerName));
         SceneManager.LoadScene("GameOver");
 
         Destroy(gameObject);
