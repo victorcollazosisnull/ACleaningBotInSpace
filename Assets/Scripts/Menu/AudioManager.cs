@@ -147,6 +147,9 @@ public class AudioManager : MonoBehaviour
 
     private void PlayMusic(AudioClip clip)
     {
+        if (clip == null || musicSource == null)
+            return;
+
         musicSource.Stop();
         musicSource.clip = clip;
         musicSource.Play();

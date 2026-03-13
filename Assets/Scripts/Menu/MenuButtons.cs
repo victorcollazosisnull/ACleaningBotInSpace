@@ -14,4 +14,8 @@ public class MenuButtons : MonoBehaviour
     {
         AudioManager.Instance.PlayClickSound();
     }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
