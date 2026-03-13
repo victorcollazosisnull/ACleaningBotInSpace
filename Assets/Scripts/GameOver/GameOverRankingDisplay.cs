@@ -21,9 +21,23 @@ public class GameOverRankingDisplay : MonoBehaviour
             if (i < ranking.Count)
             {
                 GameResult r = ranking[i];
-                rankTexts[i].text = $"{r.playerName} - {r.total:F0} pts";
+                rankTexts[i].text = $"{i + 1}: {r.total:F0} pts";
             }
             else
+            {
+                rankTexts[i].text = $"{i + 1}:";
+            }
+        }
+    }
+
+    public void ClearRankingTexts()
+    {
+        if (rankTexts == null)
+            return;
+
+        for (int i = 0; i < rankTexts.Length; i++)
+        {
+            if (rankTexts[i] != null)
             {
                 rankTexts[i].text = "";
             }

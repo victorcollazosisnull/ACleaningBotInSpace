@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RankingResetter : MonoBehaviour
 {
-    public UnityToReact unityToReact;
+    /*public UnityToReact unityToReact;
 
     public void ResetRanking()
     {
@@ -13,10 +13,10 @@ public class RankingResetter : MonoBehaviour
 
         Debug.Log("Ranking reseteado");
 
-        // Si quieres notificar a React que se reseteó
+        // Si quieres notificar a React que se reseteï¿½
         if (unityToReact != null)
         {
             unityToReact.SendMessageToReact("Ranking reseteado");
         }
-    }
+    }*/
 }

@@ -5,8 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class GameOverButtons : MonoBehaviour
 {
+    public GameOverRankingDisplay rankingDisplay;
+
     public void OnRetryButton()
     {
+        if (rankingDisplay != null)
+        {
+            rankingDisplay.ClearRankingTexts();
+        }
+
         StartCoroutine(LoadGameAndPlayMusic());
     }
 

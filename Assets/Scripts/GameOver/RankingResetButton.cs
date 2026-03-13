@@ -9,12 +9,14 @@ public class RankingResetButton : MonoBehaviour
 
     public void ResetRanking()
     {
-        PlayerPrefs.DeleteKey("Ranking");
+        PlayerPrefs.DeleteKey("GameRanking"); 
         PlayerPrefs.Save();
 
         if (rankingDisplay != null)
         {
-            rankingDisplay.ShowRanking();
+            rankingDisplay.ClearRankingTexts(); 
         }
+
+        Debug.Log("Ranking reseteado");
     }
 }
