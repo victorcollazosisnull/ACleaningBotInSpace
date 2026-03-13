@@ -21,7 +21,7 @@ public class GameOverRankingDisplay : MonoBehaviour
             if (i < ranking.Count)
             {
                 GameResult r = ranking[i];
-                rankTexts[i].text = $"{i + 1}: {r.total:F0} pts";
+                rankTexts[i].text = $"{i + 1}: {r.total} pts";
             }
             else
             {

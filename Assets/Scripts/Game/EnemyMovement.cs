@@ -16,8 +16,6 @@ public class EnemyMovement : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            AudioManager.Instance.PlayDamageSound();
-
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>(); 
 
             if (playerHealth != null)

@@ -10,6 +10,15 @@ public class PlayerHealth : MonoBehaviour
 
     public GameObject explosionPrefab;
 
+    [Header("Hit Player")]
+    private bool isInvulnerable = false;
+    public float invulnerableTime = 1.5f;
+
+    private SpriteRenderer sr;
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
     private void Start()
     {
         currentHealth = maxHealth;
@@ -18,6 +27,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isInvulnerable) return;
+
+        AudioManager.Instance.PlayDamageSound();
+
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0;
 
@@ -27,6 +40,30 @@ public class PlayerHealth : MonoBehaviour
         {
             StartCoroutine(Die());
         }
+        else
+        {
+            StartCoroutine(Invulnerability());
+        }
+    }
+    IEnumerator Invulnerability()
+    {
+        isInvulnerable = true;
+
+        float timer = 0f;
+
+        while (timer < invulnerableTime)
+        {
+            sr.color = new Color(0.56f, 0.56f, 0.56f, 1f);
+            yield return new WaitForSeconds(0.1f);
+
+            sr.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+
+            timer += 0.2f;
+        }
+
+        sr.color = Color.white;
+        isInvulnerable = false;
     }
 
     private IEnumerator Die()
@@ -44,13 +81,14 @@ public class PlayerHealth : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        float points = GameManager.Instance.points;
-        float time = GameManager.Instance.timeSurvived;
+        int points = GameManager.Instance.points;
+        int time = Mathf.FloorToInt(GameManager.Instance.timeSurvived);
         string playerName = GameSession.Instance != null ? GameSession.Instance.PlayerName : "Invitado";
 
-        RankingManager.SaveResult(new GameResult(points, time, playerName));
-        SceneManager.LoadScene("GameOver");
+        RankingManager.SaveResult(new GameResult(points, time));
 
         Destroy(gameObject);
+
+        SceneManager.LoadScene("GameOver");
     }
 }

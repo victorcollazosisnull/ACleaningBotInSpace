@@ -163,11 +163,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void ReadDirection(InputAction.CallbackContext context)
     {
+        if (Time.timeScale == 0f) return;
+
         verticalInput = context.ReadValue<float>();
     }
 
     public void ReadTeleport(InputAction.CallbackContext context)
     {
+        if (PauseMenu.GamePaused)
+            return;
+
+        if (Time.timeScale == 0f) return;
         if (context.performed)
         {
             Teleport();
@@ -176,6 +182,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void ReadJump(InputAction.CallbackContext context)
     {
+        if (PauseMenu.GamePaused)
+            return;
+
+        if (Time.timeScale == 0f) return;
         if (context.performed && isGrounded)
         {
             Jump();
@@ -184,6 +194,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PauseMenu.GamePaused)
+            return;
+
         Move(verticalInput);
         if (!isGrounded)
         {

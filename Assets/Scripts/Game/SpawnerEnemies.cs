@@ -13,7 +13,7 @@ public class SpawnerEnemies : MonoBehaviour
     public float rightMaxX = 3.38f;
     public float speedIncrementInterval = 3f;
     public float spawnIntervalDecrease = 0.2f;
-    private float minSpawnInterval = 0.5f;
+    public float minSpawnInterval = 0.5f;
     private void Start()
     {
         StartCoroutine(SpawnEnemies());

@@ -1,11 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class PauseMenu : MonoBehaviour
 {
+    public static bool GamePaused;
+
     public OptionsControllerPanel optionsController;
-    public int pausePanelIndex = 0; 
+    public int pausePanelIndex = 0;
 
     public Slider masterSlider;
     public Slider musicSlider;
@@ -13,42 +15,54 @@ public class PauseMenu : MonoBehaviour
 
     private bool isPaused = false;
 
-    public void TogglePause()
+    public void PauseGame()
     {
-        isPaused = !isPaused;
+        if (isPaused) return;
 
-        if (isPaused)
-        {
-            optionsController.ShowPanel(pausePanelIndex);
-            Time.timeScale = 0;
+        isPaused = true;
+        GamePaused = true;
 
-            masterSlider.value = SettingsManager.Instance.masterVolume;
-            musicSlider.value = SettingsManager.Instance.musicVolume;
-            sfxSlider.value = SettingsManager.Instance.sfxVolume;
+        optionsController.ShowPanel(pausePanelIndex);
+        Time.timeScale = 0;
 
-            // Conectar sliders
-            masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
-            musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
-            sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSFXVolume);
-        }
-        else
-        {
-            optionsController.HidePanel(pausePanelIndex);
+        masterSlider.value = SettingsManager.Instance.masterVolume;
+        musicSlider.value = SettingsManager.Instance.musicVolume;
+        sfxSlider.value = SettingsManager.Instance.sfxVolume;
 
-            StartCoroutine(ResumeAfterDelay(0.35f)); 
-
-            masterSlider.onValueChanged.RemoveAllListeners();
-            musicSlider.onValueChanged.RemoveAllListeners();
-            sfxSlider.onValueChanged.RemoveAllListeners();
-        }
+        masterSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
+        musicSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
+        sfxSlider.onValueChanged.AddListener(AudioManager.Instance.SetSFXVolume);
     }
 
-    private System.Collections.IEnumerator ResumeAfterDelay(float delay)
+    public void ResumeGame()
     {
-        yield return new WaitForSecondsRealtime(delay); 
+        if (!isPaused) return;
+
+        isPaused = false;
+        GamePaused = false;
+
+        optionsController.HidePanel(pausePanelIndex);
+
+        StartCoroutine(ResumeAfterDelay(0.35f));
+
+        masterSlider.onValueChanged.RemoveAllListeners();
+        musicSlider.onValueChanged.RemoveAllListeners();
+        sfxSlider.onValueChanged.RemoveAllListeners();
+    }
+
+    private IEnumerator ResumeAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
         Time.timeScale = 1;
     }
 
-    public void OnPauseButtonPressed() => TogglePause();
-    public void OnResumeButtonPressed() => TogglePause();
+    public void OnPauseButtonPressed()
+    {
+        PauseGame();
+    }
+
+    public void OnResumeButtonPressed()
+    {
+        ResumeGame();
+    }
 }

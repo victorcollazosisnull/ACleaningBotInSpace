@@ -86,6 +86,8 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
+        ConnectSliders();
+
         Debug.Log("Scene changed to: " + newScene.name);
 
         if (newScene.name == "Game")
@@ -100,6 +102,33 @@ public class AudioManager : MonoBehaviour
         else
         {
             PlayMenuMusic();
+        }
+    }
+    void ConnectSliders()
+    {
+        masterSlider = GameObject.Find("SliderMaster")?.GetComponent<Slider>();
+        musicSlider = GameObject.Find("SliderMusic")?.GetComponent<Slider>();
+        sfxSlider = GameObject.Find("SliderSFX")?.GetComponent<Slider>();
+
+        if (masterSlider != null)
+        {
+            masterSlider.value = SettingsManager.Instance.masterVolume;
+            masterSlider.onValueChanged.RemoveAllListeners();
+            masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        }
+
+        if (musicSlider != null)
+        {
+            musicSlider.value = SettingsManager.Instance.musicVolume;
+            musicSlider.onValueChanged.RemoveAllListeners();
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = SettingsManager.Instance.sfxVolume;
+            sfxSlider.onValueChanged.RemoveAllListeners();
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
         }
     }
 

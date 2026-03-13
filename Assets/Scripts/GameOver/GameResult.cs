@@ -3,16 +3,14 @@ using System;
 [Serializable]
 public class GameResult
 {
-    public string playerName;
-    public float points;
-    public float time;
-    public float total;
+    public int points;
+    public int time;
+    public int total;
 
-    public GameResult(float points, float time, string playerName)
+    public GameResult(int points, int time)
     {
         this.points = points;
         this.time = time;
         this.total = points + time;
-        this.playerName = playerName;
     }
 }

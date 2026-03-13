@@ -19,6 +19,7 @@ public class GameOverButtons : MonoBehaviour
 
     public void OnMenuButton()
     {
+        Time.timeScale = 1f;
         GameManager.Instance.ResetGame(); 
         SceneManager.LoadScene("Menu");
     }
